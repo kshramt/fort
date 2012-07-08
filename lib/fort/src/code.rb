@@ -7,14 +7,10 @@ module Fort
       require 'ruby_patch'
       extend ::RubyPatch::AutoLoad
 
-      RETAINS = [
-                 :normal,
-                 :end_comment,
-                 :start_single_quote_string,
-                 :end_single_quote_string,
-                 :start_double_quote_string,
-                 :end_double_quote_string,
-                ]
+      # $1: quote, $2: string, $3: comment
+      # We don't need $2 and $3
+      STRING_OR_COMMENT_REG = /[^"'!]*(?:(["'])(.*?)\1|(!.*?)(?:\n|\z))/mi
+
       CONTINUATION_AMPERSAND_REG = /& *\n+ *&?/
       ONE_LINER_REG = /;/
 
@@ -95,12 +91,17 @@ module Fort
       end
 
       def without_comments_and_strings()
-        @scanner = Scanner.new
+        self.gsub(STRING_OR_COMMENT_REG) do |s|
+          if $2
+            s[STRING_OR_COMMENT_REG, 2] = ''
+          elsif $3
+            s[STRING_OR_COMMENT_REG, 3] = ''
+          else
+            raise MustNotHappen
+          end
 
-        # Use << to keep instance variables etc of self.
-        self.slice(0, 0) << self.each_char.select{|c|
-          @scanner.__send__(Scanner::CHAR_KIND[c])
-          RETAINS.include?(@scanner.state_name)}.join
+          s
+        end
       end
 
       def without_continuation_ampersand()
