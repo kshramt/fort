@@ -7,23 +7,24 @@ module Fort
       require 'ruby_patch'
       extend ::RubyPatch::AutoLoad
 
-      # $1: quote, $2: string, $3: comment
-      # We don't need $2 and $3
+      # $1: quote, $2: string, $3: comment.
+      # We don't need $2 and $3.
       STRING_OR_COMMENT_REG = /[^"'!]*(?:(["'])(.*?)\1|(!.*?)(?:\n|\z))/mi
 
       CONTINUATION_AMPERSAND_REG = /& *\n+ *&?/
       ONE_LINER_REG = /;/
 
-      # $1: "program" or "module". $2: program or module name
+      # $1: "program" or "module". $2: program or module name.
       START_SECTION_REG = /\A(program|module) +([A-Za-z]\w*)\z/i
       END_SECTION_REG = /\Aend +(program|module) +([A-Za-z]\w*)\z/i
 
-      # $1: "non_intrinsic" or "intrinsic" or nil. $2: module name
+      # $1: "non_intrinsic" or "intrinsic" or nil. $2: module name.
       USE_REG = /\Ause(?:(?: *, *((?:non_)?intrinsic) *:: *)| +)([A-Za-z]\w*)/i
 
       ParseError = Class.new(StandardError)
 
-      # @return [Hash] Stored in @contents.
+      # @return [Hash]
+      # Structure of returned value:
       #   {programs: {
       #       prog1: [
       #         {
