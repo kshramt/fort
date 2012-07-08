@@ -25,6 +25,64 @@ module Fort
       # $1: "non_intrinsic" or "intrinsic" or nil. $2: module name
       USE_REG = /\Ause(?:(?: *, *((?:non_)?intrinsic) *:: *)| +)([A-Za-z]\w*)/i
 
+      ParseError = Class.new(StandardError)
+
+      # @return [Hash] Stored in @contents.
+      #   {programs: {
+      #       prog1: [
+      #         {
+      #           name: :mod1,
+      #           intrinsic_mode: :both},
+      #         {
+      #           name: :mod2,
+      #           intrinsic_mode: :intrinsic}]},
+      #     modules: {
+      #       mod2: [
+      #         {
+      #           name: :mod3,
+      #           intrinsic_mode: :non_intrinsic}]}}
+      def parse
+        @contents = Hash.new{|h, k|
+          h[k] = Hash.new{|h, k|
+            h[k] = Array.new{
+              {}}}}
+
+        mode = nil
+        name = nil
+        clean_code.each do |line|
+          case line
+          when START_SECTION_REG
+            raise ParseError unless mode.nil? && name.nil?
+
+            mode = $1.downcase.to_sym
+            name = $2.downcase.to_sym
+            @contents[mode][name] = []
+            next
+          when END_SECTION_REG
+            raise ParseError unless $1.downcase.to_sym == mode && $2.downcase.to_sym == name
+
+            mode = nil
+            name = nil
+            next
+          end
+
+          case mode
+          when :program, :module
+            next unless line =~ USE_REG
+
+            @contents[mode][name] << {
+              intrinsic_mode: if $1.nil? then :both else $1.downcase.to_sym end,
+              name: $2.downcase.to_sym}
+          end
+        end
+
+        @contents
+      end
+
+      def contents
+        @contents || parse
+      end
+
       # @return [Array] Lines without empty lines.
       def clean_code
         @clean_code ||= without_comments_and_strings\
