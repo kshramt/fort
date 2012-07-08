@@ -23,30 +23,12 @@ module Fort
 
       ParseError = Class.new(StandardError)
 
-      # @return [Hash]
-      # Structure of returned value:
-      #   {programs: {
-      #       prog1: [
-      #         {
-      #           name: :mod1,
-      #           intrinsic_mode: :both},
-      #         {
-      #           name: :mod2,
-      #           intrinsic_mode: :intrinsic}]},
-      #     modules: {
-      #       mod2: [
-      #         {
-      #           name: :mod3,
-      #           intrinsic_mode: :non_intrinsic}]}}
+      # @return [Array<ProgramUnit>]
       def parse
-        # Hash-Hash-Array-Hash => hhah
-        hhah = Hash.new{|h, k|
-          h[k] = Hash.new{|h, k|
-            h[k] = Array.new{
-              {}}}}
-
         mode = nil
         name = nil
+        program_unit = nil
+        program_unit_list = []
         clean_code.each do |line|
           case line
           when START_SECTION_REG
@@ -54,13 +36,14 @@ module Fort
 
             mode = low_sym($1)
             name = low_sym($2)
-            hhah[mode][name] = []
+            program_unit = ProgramUnit.new(name, mode)
             next
           when END_SECTION_REG
             raise ParseError unless low_sym($1) == mode && low_sym($2) == name
 
             mode = nil
             name = nil
+            program_unit_list << program_unit
             next
           end
 
@@ -68,13 +51,11 @@ module Fort
           when :program, :module
             next unless line =~ USE_REG
 
-            hhah[mode][name] << {
-              intrinsic_mode: if $1.nil? then :both else low_sym($1) end,
-              name: low_sym($2)}
+            program_unit.deps << DependedModule.new(low_sym($2), if $1.nil? then nil else low_sym($1) end)
           end
         end
 
-        hhah
+        program_unit_list
       end
 
       def contents

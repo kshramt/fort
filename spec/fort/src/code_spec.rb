@@ -5,33 +5,25 @@ describe ::Fort::Src::Code do
     context 'normal case' do
       context 'program' do
         it do
-          ::Fort::Src::Code.new(File.read(File.join(__DIR__, 'test.f90'))).contents.should == {program: {
-              test: [
-                     {
-                       intrinsic_mode: :both,
-                       name: :mod1},
-                     {
-                       intrinsic_mode: :non_intrinsic,
-                       name: :mod2},
-                     {
-                       intrinsic_mode: :intrinsic,
-                       name: :iso_fortran_env}]}}
+          ::Fort::Src::Code.new(File.read(File.join(__DIR__, 'test.f90')))\
+            .contents\
+            .should == [
+                        ::Fort::Src::Code::ProgramUnit.new(:test, :program, [
+                                                                             ::Fort::Src::Code::DependedModule.new(:mod1, :non_intrinsic),
+                                                                             ::Fort::Src::Code::DependedModule.new(:mod2, :non_intrinsic),
+                                                                             ::Fort::Src::Code::DependedModule.new(:iso_fortran_env, :both)])]
         end
       end
 
       context 'module' do
         it do
-          ::Fort::Src::Code.new(File.read(File.join(__DIR__, 'lib_test.f90'))).contents.should == {module: {
-              lib_test: [
-                     {
-                       intrinsic_mode: :both,
-                       name: :mod1},
-                     {
-                       intrinsic_mode: :non_intrinsic,
-                       name: :mod2},
-                     {
-                       intrinsic_mode: :intrinsic,
-                       name: :iso_fortran_env}]}}
+          ::Fort::Src::Code.new(File.read(File.join(__DIR__, 'lib_test.f90')))
+            .contents\
+            .should == [
+                        ::Fort::Src::Code::ProgramUnit.new(:lib_test, :module, [
+                                                                             ::Fort::Src::Code::DependedModule.new(:mod1, :non_intrinsic),
+                                                                             ::Fort::Src::Code::DependedModule.new(:mod2, :non_intrinsic),
+                                                                             ::Fort::Src::Code::DependedModule.new(:iso_fortran_env, :non_intrinsic)])]
         end
       end
     end

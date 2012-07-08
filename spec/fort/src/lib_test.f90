@@ -1,7 +1,7 @@
 module lib_test
   use mod1, only: func1, proc1
   use, non_intrinsic :: mod2, only: func2, CONST1
-  use, intrinsic:: ISO_FORTRAN_ENV, only: OUTPUT_UNIT
+  use, non_intrinsic:: ISO_FORTRAN_ENV, only: OUTPUT_UNIT
 
   implicit none
   real:: a, b
