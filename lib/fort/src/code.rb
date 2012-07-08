@@ -38,7 +38,8 @@ module Fort
       #           name: :mod3,
       #           intrinsic_mode: :non_intrinsic}]}}
       def parse
-        @contents = Hash.new{|h, k|
+        # Hash-Hash-Array-Hash => hhah
+        hhah = Hash.new{|h, k|
           h[k] = Hash.new{|h, k|
             h[k] = Array.new{
               {}}}}
@@ -52,7 +53,7 @@ module Fort
 
             mode = low_sym($1)
             name = low_sym($2)
-            @contents[mode][name] = []
+            hhah[mode][name] = []
             next
           when END_SECTION_REG
             raise ParseError unless low_sym($1) == mode && low_sym($2) == name
@@ -66,17 +67,17 @@ module Fort
           when :program, :module
             next unless line =~ USE_REG
 
-            @contents[mode][name] << {
+            hhah[mode][name] << {
               intrinsic_mode: if $1.nil? then :both else low_sym($1) end,
               name: low_sym($2)}
           end
         end
 
-        @contents
+        hhah
       end
 
       def contents
-        @contents || parse
+        @contents ||= parse
       end
 
       # @return [Array] Lines without empty lines.
