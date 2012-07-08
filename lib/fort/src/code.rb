@@ -50,12 +50,12 @@ module Fort
           when START_SECTION_REG
             raise ParseError unless mode.nil? && name.nil?
 
-            mode = $1.downcase.to_sym
-            name = $2.downcase.to_sym
+            mode = low_sym($1)
+            name = low_sym($2)
             @contents[mode][name] = []
             next
           when END_SECTION_REG
-            raise ParseError unless $1.downcase.to_sym == mode && $2.downcase.to_sym == name
+            raise ParseError unless low_sym($1) == mode && low_sym($2) == name
 
             mode = nil
             name = nil
@@ -67,8 +67,8 @@ module Fort
             next unless line =~ USE_REG
 
             @contents[mode][name] << {
-              intrinsic_mode: if $1.nil? then :both else $1.downcase.to_sym end,
-              name: $2.downcase.to_sym}
+              intrinsic_mode: if $1.nil? then :both else low_sym($1) end,
+              name: low_sym($2)}
           end
         end
 
@@ -110,6 +110,12 @@ module Fort
 
       def without_one_line_semicolon()
         self.gsub(ONE_LINER_REG, "\n")
+      end
+
+      private
+
+      def low_sym(str)
+        str.downcase.to_sym
       end
     end
   end
