@@ -19,7 +19,7 @@ module Fort
       END_SECTION_REG = /\Aend +(program|module) +([A-Za-z]\w*)\z/i
 
       # $1: "non_intrinsic" or "intrinsic" or nil. $2: module name.
-      USE_REG = /\Ause(?:(?: *, *((?:non_)?intrinsic) *:: *)| +)([A-Za-z]\w*)/i
+      USE_REG = /\Ause(?:(?: *, *((?:non_)?intrinsic) *:: *)|(?: *::)? +)([A-Za-z]\w*)/i
 
       ParseError = Class.new(StandardError)
 
