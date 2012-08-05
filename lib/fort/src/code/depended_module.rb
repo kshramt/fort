@@ -9,7 +9,7 @@ module Fort
 
         def initialize(name, intrinsic_mode = nil)
           @name = name
-          @intrinsic_mode = if intrinsic_mode == nil
+          @intrinsic_mode = if intrinsic_mode.nil?
                               if ::Fort::INTRINSIC_MODULES.include?(name)
                                 :both
                               else
