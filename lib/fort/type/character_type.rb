@@ -21,7 +21,7 @@ module Fort
       end
 
       def to_s
-        "Character(len = #{@len})"
+        @to_s ||= "Character(len = #{@len})"
       end
     end
   end

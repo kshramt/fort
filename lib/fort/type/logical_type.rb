@@ -12,7 +12,7 @@ module Fort
       end
 
       def to_s
-        "Logical"
+        @to_s ||= "Logical"
       end
     end
   end
