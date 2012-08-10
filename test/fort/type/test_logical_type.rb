@@ -7,12 +7,12 @@ class TestLogicalType < ::MiniTest::Unit::TestCase
   end
 
   def test_to_s
-    assert_equal(@l0.to_s, "Logical")
-    assert_equal(@l2.to_s, "Logical")
+    assert_equal(@l0.to_s, "LogicalDim0")
+    assert_equal(@l2.to_s, "LogicalDim2")
   end
 
-  def test_suf
-    assert_equal(@l0.suf, "_l_0")
-    assert_equal(@l2.suf, "_l_2")
+  def test_declare
+    assert_equal(@l0.declare, "Logical")
+    assert_equal(@l2.declare, "Logical, dimension(:, :)")
   end
 end

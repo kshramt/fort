@@ -5,26 +5,39 @@ module Fort
 
     USE_ISO_FORTRAN_ENV = "use, intrinsic:: iso_fortran_env, only: INT8, INT16, INT32, INT64, REAL32, REAL64, REAL128"
 
-    attr_reader :dim
+    attr_reader :dim, :stem
 
     def initialize(dim = 0)
       @dim = dim
+      @stem = self.class.to_s.split('::').last.sub(/Type\z/, '')
+    end
+
+    def to_s
+      "#{@stem}Dim#{dim}"
+    end
+
+    def declare
+      if @dim >= 1
+        ", dimension#{self.parenthesis}"
+      else
+        ""
+      end
     end
 
     def colons
-      @colons ||= ([':']*@dim).join(', ')
+      ([':']*@dim).join(', ')
     end
 
     def parenthesis
-      @parenthesis ||= if @dim >= 1
-                         "(#{self.colons})"
-                       else
-                         ''
-                       end
+      if @dim >= 1
+        "(#{self.colons})"
+      else
+        ''
+      end
     end
 
-    def suf
-      @suf ||= "_#{self.sym}_#{@dim}"
+    def format
+      "#{@dim}"
     end
   end
 end

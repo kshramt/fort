@@ -4,15 +4,12 @@ module Fort
       require 'ruby_patch'
       extend ::RubyPatch::AutoLoad
 
-      attr_reader :sym
-
       def initialize(dim = 0)
         super
-        @sym = 'l'
       end
 
-      def to_s
-        @to_s ||= "Logical"
+      def declare
+        "#{@stem}#{super}"
       end
     end
   end

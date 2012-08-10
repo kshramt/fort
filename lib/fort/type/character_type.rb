@@ -4,24 +4,27 @@ module Fort
       require 'ruby_patch'
       extend ::RubyPatch::AutoLoad
 
-      attr_reader :sym, :len
+      attr_reader :len
 
       def initialize(dim = 0, len = 1)
         super(dim)
         @len = len
-        len_suffix = case @len
-                     when '*'
-                       'Ast'
-                     when ':'
-                       'Colon'
-                     else
-                       @len
-                     end
-        @sym = "c#{len_suffix}"
+        @len_suf = case @len
+                   when '*'
+                     'Ast'
+                   when ':'
+                     'Colon'
+                   else
+                     @len
+                   end
       end
 
       def to_s
-        @to_s ||= "Character(len = #{@len})"
+        "#{super}Len#{@len_suf}"
+      end
+
+      def declare
+        "#{@stem}(len = #{@len})#{super}"
       end
     end
   end
