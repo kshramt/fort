@@ -1,6 +1,6 @@
 module Fort
   class Type
-    class LogicalType < Type
+    class LogicalType < self
       require 'ruby_patch'
       extend ::RubyPatch::AutoLoad
 

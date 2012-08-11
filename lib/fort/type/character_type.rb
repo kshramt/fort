@@ -1,6 +1,6 @@
 module Fort
   class Type
-    class CharacterType < Type
+    class CharacterType < self
       require 'ruby_patch'
       extend ::RubyPatch::AutoLoad
 
