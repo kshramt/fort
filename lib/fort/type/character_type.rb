@@ -23,8 +23,8 @@ module Fort
         "#{super}Len#{@len_suf}"
       end
 
-      def declare
-        "#{@stem}(len = #{@len})#{super}"
+      def declare(dim = self.dim, len = @len)
+        "#{self.type}(len = #{@len})#{super(dim)}"
       end
     end
   end

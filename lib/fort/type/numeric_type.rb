@@ -4,20 +4,19 @@ module Fort
       require 'ruby_patch'
       extend ::RubyPatch::AutoLoad
 
-      attr_reader :kind, :kind_const
+      attr_reader :kind
 
       def initialize(dim = 0, kind = 32)
         super(dim)
         @kind = kind
-        @kind_const = nil
       end
 
       def to_s
         "#{super}Kind#{@kind}"
       end
 
-      def declare
-        "#{@stem}(#{@kind_const})#{super}"
+      def declare(dim = self.dim, kind = self.kind)
+        "#{self.type}(#{self.kind_const(kind)})#{super(dim)}"
       end
     end
   end

@@ -15,4 +15,8 @@ class TestRealType < ::MiniTest::Unit::TestCase
     assert_equal(@d_0.declare, "Real(REAL64)")
     assert_equal(@s_2.declare, "Real(REAL32), dimension(:, :)")
   end
+
+  def test_declare_with_params
+    assert_equal(@s_2.declare(0, 64), "Real(REAL64)")
+  end
 end

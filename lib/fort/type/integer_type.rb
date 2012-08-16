@@ -4,9 +4,8 @@ module Fort
       require 'ruby_patch'
       extend ::RubyPatch::AutoLoad
 
-      def initialize(dim = 0, kind = 32)
-        super
-        @kind_const = "INT#{@kind}"
+      def kind_const(kind = self.kind)
+        "INT#{kind}"
       end
     end
   end

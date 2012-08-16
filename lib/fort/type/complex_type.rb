@@ -4,11 +4,8 @@ module Fort
       require 'ruby_patch'
       extend ::RubyPatch::AutoLoad
 
-      attr_reader :kind, :kind_const
-
-      def initialize(dim = 0, kind = 32)
-        super
-        @kind_const = "REAL#{@kind}"
+      def kind_const(kind = self.kind)
+        "REAL#{kind}"
       end
     end
   end

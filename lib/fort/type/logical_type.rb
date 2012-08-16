@@ -8,8 +8,8 @@ module Fort
         super
       end
 
-      def declare
-        "#{@stem}#{super}"
+      def declare(dim = self.dim)
+        "#{@type}#{super(dim)}"
       end
     end
   end
