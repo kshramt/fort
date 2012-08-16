@@ -35,9 +35,5 @@ module Fort
         ''
       end
     end
-
-    def format
-      "#{@dim}"
-    end
   end
 end
