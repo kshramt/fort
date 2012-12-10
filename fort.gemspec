@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.name = gem_name
   s.summary = "Library for Fortran 90 and newer."
   s.version = ::Fort::VERSION
-  s.add_runtime_dependency 'ruby_patch', '~> 1.1'
+  s.add_runtime_dependency 'ruby_patch', '>= 1.1.0'
   s.add_development_dependency 'pry', '~> 0.9'
   s.author = 'kshramt'
   s.description = "Ruby library for Fortran 90 and newer."
