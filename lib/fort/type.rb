@@ -1,5 +1,3 @@
-module Fort
-end
 module ::Fort::Type
   USE_ISO_FORTRAN_ENV = "use, intrinsic:: iso_fortran_env, only: INT8, INT16, INT32, INT64, REAL32, REAL64, REAL128"
 
@@ -76,32 +74,14 @@ module ::Fort::Type
 
   class Integer < Numeric
     KINDS = [:INT8, :INT16, :INT32, :INT64]
-
-    def initialize(id, hash)
-      super
-      @kind = hash.fetch(:kind)
-    end
-    attr_reader :kind
   end
 
   class Real < Numeric
     KINDS = [:REAL32, :REAL64, :REAL128]
-
-    def initialize(id, hash)
-      super
-      @kind = hash.fetch(:kind)
-    end
-    attr_reader :kind
   end
 
   class Complex < Numeric
     KINDS = [:REAL32, :REAL64, :REAL128]
-
-    def initialize(id, hash)
-      super
-      @kind = hash.fetch(:kind)
-    end
-    attr_reader :kind
   end
 
   class Character < Base
@@ -121,8 +101,5 @@ module ::Fort::Type
   end
 
   class Logical < Base
-    def initialize(id, hash)
-      super
-    end
   end
 end
