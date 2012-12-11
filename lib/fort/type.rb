@@ -6,18 +6,18 @@ module ::Fort::Type
       id_number = '0'
       lambda{'T' + id_number.next!}}.call
 
-    def provide(hash)
+    def provide(params)
       @memo ||= {}
-      @memo[hash] ||= new(::Fort::Type::Providable::ID_GENERATOR.call, hash)
+      @memo[params] ||= new(::Fort::Type::Providable::ID_GENERATOR.call, params)
     end
   end
 
   class Base
     extend Providable
 
-    def initialize(id, hash)
+    def initialize(id, params)
       @id = id
-      @dim = hash.fetch(:dim)
+      @dim = params.fetch(:dim)
       raise ArgumentError, "@dim: #{@dim}" if @dim < 0
       @type = self.class.to_s.split('::').last
     end
@@ -57,9 +57,9 @@ module ::Fort::Type
   end
 
   class Numeric < Base
-    def initialize(id, hash)
+    def initialize(id, params)
       super
-      @kind = hash.fetch(:kind)
+      @kind = params.fetch(:kind)
     end
     attr_reader :kind
 
@@ -85,9 +85,9 @@ module ::Fort::Type
   end
 
   class Character < Base
-    def initialize(id, hash)
+    def initialize(id, params)
       super
-      @len = hash.fetch(:len)
+      @len = params.fetch(:len)
     end
     attr_reader :len
 
