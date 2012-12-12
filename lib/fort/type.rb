@@ -92,11 +92,21 @@ module ::Fort::Type
     attr_reader :len
 
     def to_s
-      super + "Len#{@len}"
+      super + "Len#{len_str()}"
     end
 
     def declare
       "#{@type}(len = #{@len})#{dimension()}"
+    end
+
+    private
+
+    def len_str
+      if @len == :*
+        'Ast'
+      else
+        @len
+      end
     end
   end
 
