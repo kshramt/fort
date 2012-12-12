@@ -1,21 +1,42 @@
 module ::Fort::Type
   USE_ISO_FORTRAN_ENV = "use, intrinsic:: iso_fortran_env, only: INT8, INT16, INT32, INT64, REAL32, REAL64, REAL128"
+  DIM_RANGE = (0..7)
 
   module Providable
     ID_GENERATOR = lambda{
       id_number = '0'
       lambda{'T' + id_number.next!}}.call
 
-    def provide(params)
+    def provide(params = {})
+      @params_default ||= {}
       @memo ||= {}
-      @memo[params] ||= new(::Fort::Type::Providable::ID_GENERATOR.call, params)
+      params_for_new = @params_default.merge(params)
+      @memo[params_for_new] ||= new(::Fort::Type::Providable::ID_GENERATOR.call, params_for_new)
+    end
+
+    # @param [Hash<Array>] params
+    def multi_provide(params = {})
+      @params_default_for_multi_provide ||= {}
+      params_for_new = @params_default_for_multi_provide.merge(params)
+      product_all(params_for_new.values.map{|val| Array(val)})\
+        .map{|values| Hash[params_for_new.keys.zip(values)]}\
+        .map{|hash| provide(hash)}
+    end
+
+    private
+
+    def product_all(array)
+      return array if array.size <= 1
+      first = array.first
+      rest = array[1..-1]
+      first.product(*rest)
     end
   end
 
   class Base
     extend Providable
 
-    def initialize(id, params)
+    def initialize(id, params = {})
       @id = id
       @dim = params.fetch(:dim)
       raise ArgumentError, "@dim: #{@dim}" if @dim < 0
@@ -57,7 +78,7 @@ module ::Fort::Type
   end
 
   class Numeric < Base
-    def initialize(id, params)
+    def initialize(id, params = {})
       super
       @kind = params.fetch(:kind)
     end
@@ -74,17 +95,26 @@ module ::Fort::Type
 
   class Integer < Numeric
     KINDS = [:INT8, :INT16, :INT32, :INT64]
+    @params_default = {dim: 0, kind: :INT32}
+    @params_default_for_multi_provide = {dim: ::Fort::Type::DIM_RANGE, kind: KINDS}
   end
 
   class Real < Numeric
     KINDS = [:REAL32, :REAL64, :REAL128]
+    @params_default = {dim: 0, kind: :REAL32}
+    @params_default_for_multi_provide = {dim: ::Fort::Type::DIM_RANGE, kind: KINDS}
   end
 
   class Complex < Numeric
     KINDS = [:REAL32, :REAL64, :REAL128]
+    @params_default = {dim: 0, kind: :REAL32}
+    @params_default_for_multi_provide = {dim: ::Fort::Type::DIM_RANGE, kind: KINDS}
   end
 
   class Character < Base
+    @params_default = {dim: 0, len: :*}
+    @params_default_for_multi_provide = {dim: ::Fort::Type::DIM_RANGE, len: :*}
+
     def initialize(id, params)
       super
       @len = params.fetch(:len)
@@ -111,5 +141,7 @@ module ::Fort::Type
   end
 
   class Logical < Base
+    @params_default = {dim: 0}
+    @params_default_for_multi_provide = {dim: ::Fort::Type::DIM_RANGE}
   end
 end

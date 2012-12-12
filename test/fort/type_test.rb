@@ -27,6 +27,10 @@ class TypeTest < ::MiniTest::Unit::TestCase
     assert_equal('Numeric(kind = 1)', t.declare)
   end
 
+  def test_multi_provide
+    assert_equal(21, T::Numeric.multi_provide(dim: [1, 2, 3, 4, 5, 6, 7], kind: ['REAL32', 'REAL64', 'REAL128']).size)
+  end
+
   def test_integer
     t = T::Integer.provide(dim: 7, kind: :INT32)
     assert_equal('IntegerDim7KindINT32', t.to_s)
