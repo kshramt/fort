@@ -28,6 +28,7 @@ class TypeTest < ::MiniTest::Unit::TestCase
   end
 
   def test_multi_provide
+    assert_equal(8, T::Logical.multi_provide(dim: (0..7)).size)
     assert_equal(21, T::Numeric.multi_provide(dim: [1, 2, 3, 4, 5, 6, 7], kind: ['REAL32', 'REAL64', 'REAL128']).size)
   end
 

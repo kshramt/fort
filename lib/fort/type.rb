@@ -26,7 +26,8 @@ module ::Fort::Type
     private
 
     def product_all(array)
-      return array if array.size <= 1
+      return array if array.empty?
+      return array.first.map{|val| Array(val)} if array.one?
       first = array.first
       rest = array[1..-1]
       first.product(*rest)
