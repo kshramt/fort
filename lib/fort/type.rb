@@ -134,7 +134,9 @@ module ::Fort::Type
 
     def len_str
       if @len == :*
-        'Ast'
+        'Asterisk'
+      elsif @len == :':'
+        'Colon'
       else
         @len
       end
