@@ -14,6 +14,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'pry', '~> 0.9'
   s.author = 'kshramt'
   s.description = "Ruby library for Fortran 90 and newer."
-  s.required_ruby_version = '~> 1.9'
+  s.required_ruby_version = '>= 1.9'
   s.test_files.concat `git ls-files test`.split.select{|path| path =~ /test_[^\/]+.rb/}
 end
