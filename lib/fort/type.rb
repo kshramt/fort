@@ -41,7 +41,7 @@ module ::Fort::Type
       @id = id
       @dim = params.fetch(:dim)
       raise ArgumentError, "@dim: #{@dim}" if @dim < 0
-      @type = self.class.to_s.split('::').last
+      @type = self.class.to_s.split('::').last.to_sym
     end
     attr_reader :id, :dim, :type
 
@@ -50,7 +50,7 @@ module ::Fort::Type
     end
 
     def declare
-      @type + dimension()
+      "#{@type}#{dimension()}"
     end
 
     def parenthesis
