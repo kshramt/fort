@@ -62,6 +62,12 @@ class TypeTest < ::MiniTest::Unit::TestCase
     assert_equal('Character(len = *), dimension(:)', t.declare)
   end
 
+  def test_character_colon
+    t = T::Character.provide(dim: 1, len: :':')
+    assert_equal('CharacterDim1LenColon', t.to_s)
+    assert_equal('Character(len = :), dimension(:)', t.declare)
+  end
+
   def test_logical
     t = T::Logical.provide(dim: 1)
     assert_equal('LogicalDim1', t.to_s)
