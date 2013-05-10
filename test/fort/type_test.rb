@@ -58,7 +58,7 @@ class TypeTest < ::MiniTest::Unit::TestCase
 
   def test_character_asterisk
     t = T::Character.provide(dim: 1, len: :*)
-    assert_equal('CharacterDim1LenAst', t.to_s)
+    assert_equal('CharacterDim1LenAsterisk', t.to_s)
     assert_equal('Character(len = *), dimension(:)', t.declare)
   end
 
