@@ -61,8 +61,6 @@ module ::Fort::Type
       end
     end
 
-    private
-
     def dimension
       if @dim >= 1
         ", dimension" + parenthesis()
@@ -70,6 +68,8 @@ module ::Fort::Type
         ''
       end
     end
+
+    private
 
     def colons
       if @dim >= 1
