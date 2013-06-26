@@ -26,7 +26,8 @@ module ::Fort::Type
     private
 
     def product_all(array)
-      return array if array.size <= 1
+      return array if array.empty?
+      return array.first.map{|val| Array(val)} if array.one?
       first = array.first
       rest = array[1..-1]
       first.product(*rest)
@@ -40,7 +41,7 @@ module ::Fort::Type
       @id = id
       @dim = params.fetch(:dim)
       raise ArgumentError, "@dim: #{@dim}" if @dim < 0
-      @type = self.class.to_s.split('::').last
+      @type = self.class.to_s.split('::').last.to_sym
     end
     attr_reader :id, :dim, :type
 
@@ -49,7 +50,7 @@ module ::Fort::Type
     end
 
     def declare
-      @type + dimension()
+      "#{@type}#{dimension()}"
     end
 
     def parenthesis
@@ -60,8 +61,6 @@ module ::Fort::Type
       end
     end
 
-    private
-
     def dimension
       if @dim >= 1
         ", dimension" + parenthesis()
@@ -69,6 +68,8 @@ module ::Fort::Type
         ''
       end
     end
+
+    private
 
     def colons
       if @dim >= 1
@@ -133,7 +134,9 @@ module ::Fort::Type
 
     def len_str
       if @len == :*
-        'Ast'
+        'Asterisk'
+      elsif @len == :':'
+        'Colon'
       else
         @len
       end

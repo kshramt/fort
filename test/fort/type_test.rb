@@ -4,16 +4,16 @@ class TypeTest < ::MiniTest::Unit::TestCase
   T = ::Fort::Type
 
   def test_different_ids_for_different_types
-    assert(not(T::Real.provide(dim: 1, kind: 'REAL32').id == T::Complex.provide(dim: 1, kind: 'REAL32').id))
+    assert(not(T::Real.provide(dim: 1, kind: :REAL32).id == T::Complex.provide(dim: 1, kind: :REAL32).id))
   end
 
   def test_different_ids_for_different_hashs
-    assert(not(T::Real.provide(dim: 1, kind: 'REAL32').id == T::Real.provide(dim: 1, kind: 'REAL64').id))
-    assert(not(T::Real.provide(dim: 1, kind: 'REAL32').id == T::Real.provide(dim: 1, kind: 'REAL32', dummy: :dummy).id))
+    assert(not(T::Real.provide(dim: 1, kind: :REAL32).id == T::Real.provide(dim: 1, kind: :REAL64).id))
+    assert(not(T::Real.provide(dim: 1, kind: :REAL32).id == T::Real.provide(dim: 1, kind: :REAL32, dummy: :dummy).id))
   end
 
   def test_same_id_for_same_type_and_hash
-    assert(T::Real.provide(dim: 1, kind: 'REAL32').id == T::Real.provide(kind: 'REAL32', dim: 1).id)
+    assert(T::Real.provide(dim: 1, kind: :REAL32).id == T::Real.provide(kind: :REAL32, dim: 1).id)
   end
 
   def test_base
@@ -28,7 +28,8 @@ class TypeTest < ::MiniTest::Unit::TestCase
   end
 
   def test_multi_provide
-    assert_equal(21, T::Numeric.multi_provide(dim: [1, 2, 3, 4, 5, 6, 7], kind: ['REAL32', 'REAL64', 'REAL128']).size)
+    assert_equal(8, T::Logical.multi_provide(dim: (0..7)).size)
+    assert_equal(21, T::Numeric.multi_provide(dim: [1, 2, 3, 4, 5, 6, 7], kind: [:REAL32, :REAL64, :REAL128]).size)
   end
 
   def test_integer
@@ -57,8 +58,14 @@ class TypeTest < ::MiniTest::Unit::TestCase
 
   def test_character_asterisk
     t = T::Character.provide(dim: 1, len: :*)
-    assert_equal('CharacterDim1LenAst', t.to_s)
+    assert_equal('CharacterDim1LenAsterisk', t.to_s)
     assert_equal('Character(len=*), dimension(:)', t.declare)
+  end
+
+  def test_character_colon
+    t = T::Character.provide(dim: 1, len: :':')
+    assert_equal('CharacterDim1LenColon', t.to_s)
+    assert_equal('Character(len=:), dimension(:)', t.declare)
   end
 
   def test_logical
