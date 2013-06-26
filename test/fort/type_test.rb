@@ -24,7 +24,7 @@ class TypeTest < ::MiniTest::Unit::TestCase
   def test_numeric
     t = T::Numeric.provide(dim: 0, kind: 1)
     assert_equal('NumericDim0Kind1', t.to_s)
-    assert_equal('Numeric(kind = 1)', t.declare)
+    assert_equal('Numeric(kind=1)', t.declare)
   end
 
   def test_multi_provide
@@ -34,31 +34,31 @@ class TypeTest < ::MiniTest::Unit::TestCase
   def test_integer
     t = T::Integer.provide(dim: 7, kind: :INT32)
     assert_equal('IntegerDim7KindINT32', t.to_s)
-    assert_equal('Integer(kind = INT32), dimension(:, :, :, :, :, :, :)', t.declare)
+    assert_equal('Integer(kind=INT32), dimension(:, :, :, :, :, :, :)', t.declare)
   end
 
   def test_real
     t = T::Real.provide(dim: 1, kind: :REAL128)
     assert_equal('RealDim1KindREAL128', t.to_s)
-    assert_equal('Real(kind = REAL128), dimension(:)', t.declare)
+    assert_equal('Real(kind=REAL128), dimension(:)', t.declare)
   end
 
   def test_complex
     t = T::Complex.provide(dim: 1, kind: :REAL128)
     assert_equal('ComplexDim1KindREAL128', t.to_s)
-    assert_equal('Complex(kind = REAL128), dimension(:)', t.declare)
+    assert_equal('Complex(kind=REAL128), dimension(:)', t.declare)
   end
 
   def test_character
     t = T::Character.provide(dim: 1, len: 2)
     assert_equal('CharacterDim1Len2', t.to_s)
-    assert_equal('Character(len = 2), dimension(:)', t.declare)
+    assert_equal('Character(len=2), dimension(:)', t.declare)
   end
 
   def test_character_asterisk
     t = T::Character.provide(dim: 1, len: :*)
     assert_equal('CharacterDim1LenAst', t.to_s)
-    assert_equal('Character(len = *), dimension(:)', t.declare)
+    assert_equal('Character(len=*), dimension(:)', t.declare)
   end
 
   def test_logical

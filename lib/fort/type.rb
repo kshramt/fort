@@ -89,7 +89,7 @@ module ::Fort::Type
     end
 
     def declare
-      "#{@type}(kind = #{@kind})#{dimension()}"
+      "#{@type}(kind=#{@kind})#{dimension()}"
     end
   end
 
@@ -126,7 +126,7 @@ module ::Fort::Type
     end
 
     def declare
-      "#{@type}(len = #{@len})#{dimension()}"
+      "#{@type}(len=#{@len})#{dimension()}"
     end
 
     private
