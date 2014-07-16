@@ -1,5 +1,5 @@
-gem_name = File.basename(__DIR__)
-lib = File.join(__DIR__, 'lib')
+gem_name = File.basename(Dir.pwd)
+lib = File.join(Dir.pwd, 'lib')
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "#{gem_name}"
 
