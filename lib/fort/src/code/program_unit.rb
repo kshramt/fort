@@ -2,9 +2,6 @@ module Fort
   class Src
     class Code
       class ProgramUnit
-        require 'ruby_patch'
-        extend ::RubyPatch::AutoLoad
-
         attr_reader :type, :name
         attr_accessor :deps
 

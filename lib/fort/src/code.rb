@@ -3,9 +3,8 @@ module Fort
 
     # Add Fortran source code specific utilities for String.
     class Code < String
-      require 'pry'
-      require 'ruby_patch'
-      extend ::RubyPatch::AutoLoad
+      require 'fort/src/code/program_unit'
+      require 'fort/src/code/depended_module'
 
       # $1: quote, $2: string, $3: comment.
       # We don't need $2 and $3.

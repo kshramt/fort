@@ -1,7 +1,6 @@
-require 'ruby_patch'
 require 'rake/testtask'
 
 ::Rake::TestTask.new do |t|
-  t.libs = ['lib', 'test'].map{|dir| File.join(__DIR__, dir)}
+  t.libs = ['lib', 'test'].map{|dir| File.join(Dir.pwd, dir)}
   t.pattern = "test/**/*_test.rb"
 end

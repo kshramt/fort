@@ -3,8 +3,7 @@ module Fort
   # Handle file related informations.
   class Src
     require 'pathname'
-    require 'ruby_patch'
-    extend ::RubyPatch::AutoLoad
+    require 'fort/src/code'
 
     attr_reader :path
 

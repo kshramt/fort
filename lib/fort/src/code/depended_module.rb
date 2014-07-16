@@ -2,9 +2,6 @@ module Fort
   class Src
     class Code
       class DependedModule
-        require 'ruby_patch'
-        extend ::RubyPatch::AutoLoad
-
         attr_reader :name, :intrinsic_mode
 
         def initialize(name, intrinsic_mode = nil)
