@@ -143,8 +143,9 @@ module ::Fort::Type
     end
   end
 
-  class Logical < Base
-    @params_default = {dim: 0}
-    @params_default_for_multi_provide = {dim: ::Fort::Type::DIM_RANGE}
+  class Logical < Numeric
+    KINDS = [:INT8, :INT16, :INT32, :INT64] # xxx: ok?
+    @params_default = {dim: 0, kind: :INT32}
+    @params_default_for_multi_provide = {dim: ::Fort::Type::DIM_RANGE, kind: KINDS}
   end
 end

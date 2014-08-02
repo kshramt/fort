@@ -28,7 +28,7 @@ class TypeTest < ::MiniTest::Unit::TestCase
   end
 
   def test_multi_provide
-    assert_equal(8, T::Logical.multi_provide(dim: (0..7)).size)
+    assert_equal(8, T::Logical.multi_provide(dim: (0..7), kind: [1]).size)
     assert_equal(21, T::Numeric.multi_provide(dim: [1, 2, 3, 4, 5, 6, 7], kind: [:REAL32, :REAL64, :REAL128]).size)
   end
 
@@ -70,7 +70,10 @@ class TypeTest < ::MiniTest::Unit::TestCase
 
   def test_logical
     t = T::Logical.provide(dim: 1)
-    assert_equal('LogicalDim1', t.to_s)
-    assert_equal('Logical, dimension(:)', t.declare)
+    assert_equal('LogicalDim1KindINT32', t.to_s)
+    assert_equal('Logical(kind=INT32), dimension(:)', t.declare)
+    t = T::Logical.provide(dim: 1, kind: :INT8)
+    assert_equal('LogicalDim1KindINT8', t.to_s)
+    assert_equal('Logical(kind=INT8), dimension(:)', t.declare)
   end
 end
