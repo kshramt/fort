@@ -4,16 +4,16 @@ class TypeTest < ::MiniTest::Unit::TestCase
   T = ::Fort::Type
 
   def test_different_ids_for_different_types
-    assert(not(T::Real.provide(dim: 1, kind: :REAL32).id == T::Complex.provide(dim: 1, kind: :REAL32).id))
+    assert(not(T::Real.provide(dim: 1, kind: :real32).id == T::Complex.provide(dim: 1, kind: :real32).id))
   end
 
   def test_different_ids_for_different_hashs
-    assert(not(T::Real.provide(dim: 1, kind: :REAL32).id == T::Real.provide(dim: 1, kind: :REAL64).id))
-    assert(not(T::Real.provide(dim: 1, kind: :REAL32).id == T::Real.provide(dim: 1, kind: :REAL32, dummy: :dummy).id))
+    assert(not(T::Real.provide(dim: 1, kind: :real32).id == T::Real.provide(dim: 1, kind: :real64).id))
+    assert(not(T::Real.provide(dim: 1, kind: :real32).id == T::Real.provide(dim: 1, kind: :real32, dummy: :dummy).id))
   end
 
   def test_same_id_for_same_type_and_hash
-    assert(T::Real.provide(dim: 1, kind: :REAL32).id == T::Real.provide(kind: :REAL32, dim: 1).id)
+    assert(T::Real.provide(dim: 1, kind: :real32).id == T::Real.provide(kind: :real32, dim: 1).id)
   end
 
   def test_base
@@ -29,25 +29,25 @@ class TypeTest < ::MiniTest::Unit::TestCase
 
   def test_multi_provide
     assert_equal(8, T::Logical.multi_provide(dim: (0..7), kind: [1]).size)
-    assert_equal(21, T::Numeric.multi_provide(dim: [1, 2, 3, 4, 5, 6, 7], kind: [:REAL32, :REAL64, :REAL128]).size)
+    assert_equal(21, T::Numeric.multi_provide(dim: [1, 2, 3, 4, 5, 6, 7], kind: [:real32, :real64, :real128]).size)
   end
 
   def test_integer
-    t = T::Integer.provide(dim: 7, kind: :INT32)
-    assert_equal('IntegerDim7KindINT32', t.to_s)
-    assert_equal('Integer(kind=INT32), dimension(:, :, :, :, :, :, :)', t.declare)
+    t = T::Integer.provide(dim: 7, kind: :int32)
+    assert_equal('IntegerDim7Kindint32', t.to_s)
+    assert_equal('Integer(kind=int32), dimension(:, :, :, :, :, :, :)', t.declare)
   end
 
   def test_real
-    t = T::Real.provide(dim: 1, kind: :REAL128)
-    assert_equal('RealDim1KindREAL128', t.to_s)
-    assert_equal('Real(kind=REAL128), dimension(:)', t.declare)
+    t = T::Real.provide(dim: 1, kind: :real128)
+    assert_equal('RealDim1Kindreal128', t.to_s)
+    assert_equal('Real(kind=real128), dimension(:)', t.declare)
   end
 
   def test_complex
-    t = T::Complex.provide(dim: 1, kind: :REAL128)
-    assert_equal('ComplexDim1KindREAL128', t.to_s)
-    assert_equal('Complex(kind=REAL128), dimension(:)', t.declare)
+    t = T::Complex.provide(dim: 1, kind: :real128)
+    assert_equal('ComplexDim1Kindreal128', t.to_s)
+    assert_equal('Complex(kind=real128), dimension(:)', t.declare)
   end
 
   def test_character
@@ -70,10 +70,10 @@ class TypeTest < ::MiniTest::Unit::TestCase
 
   def test_logical
     t = T::Logical.provide(dim: 1)
-    assert_equal('LogicalDim1KindINT32', t.to_s)
-    assert_equal('Logical(kind=INT32), dimension(:)', t.declare)
-    t = T::Logical.provide(dim: 1, kind: :INT8)
-    assert_equal('LogicalDim1KindINT8', t.to_s)
-    assert_equal('Logical(kind=INT8), dimension(:)', t.declare)
+    assert_equal('LogicalDim1Kindint32', t.to_s)
+    assert_equal('Logical(kind=int32), dimension(:)', t.declare)
+    t = T::Logical.provide(dim: 1, kind: :int8)
+    assert_equal('LogicalDim1Kindint8', t.to_s)
+    assert_equal('Logical(kind=int8), dimension(:)', t.declare)
   end
 end

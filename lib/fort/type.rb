@@ -1,5 +1,5 @@
 module ::Fort::Type
-  USE_ISO_FORTRAN_ENV = "use, intrinsic:: iso_fortran_env, only: INT8, INT16, INT32, INT64, REAL32, REAL64, REAL128"
+  USE_ISO_FORTRAN_ENV = "use, intrinsic:: iso_fortran_env, only: int8, int16, int32, int64, real32, real64, real128"
   DIM_RANGE = (0..7)
 
   module Providable
@@ -95,20 +95,20 @@ module ::Fort::Type
   end
 
   class Integer < Numeric
-    KINDS = [:INT8, :INT16, :INT32, :INT64]
-    @params_default = {dim: 0, kind: :INT32}
+    KINDS = [:int8, :int16, :int32, :int64]
+    @params_default = {dim: 0, kind: :int32}
     @params_default_for_multi_provide = {dim: ::Fort::Type::DIM_RANGE, kind: KINDS}
   end
 
   class Real < Numeric
-    KINDS = [:REAL32, :REAL64, :REAL128]
-    @params_default = {dim: 0, kind: :REAL32}
+    KINDS = [:real32, :real64, :real128]
+    @params_default = {dim: 0, kind: :real32}
     @params_default_for_multi_provide = {dim: ::Fort::Type::DIM_RANGE, kind: KINDS}
   end
 
   class Complex < Numeric
-    KINDS = [:REAL32, :REAL64, :REAL128]
-    @params_default = {dim: 0, kind: :REAL32}
+    KINDS = [:real32, :real64, :real128]
+    @params_default = {dim: 0, kind: :real32}
     @params_default_for_multi_provide = {dim: ::Fort::Type::DIM_RANGE, kind: KINDS}
   end
 
@@ -144,8 +144,8 @@ module ::Fort::Type
   end
 
   class Logical < Numeric
-    KINDS = [:INT8, :INT16, :INT32, :INT64] # xxx: ok?
-    @params_default = {dim: 0, kind: :INT32}
+    KINDS = [:int8, :int16, :int32, :int64] # xxx: ok?
+    @params_default = {dim: 0, kind: :int32}
     @params_default_for_multi_provide = {dim: ::Fort::Type::DIM_RANGE, kind: KINDS}
   end
 end
